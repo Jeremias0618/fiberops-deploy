@@ -5,6 +5,7 @@
 #   Email: yeremitantaraico@gmail.com
 #   Ubuntu Server 22.04
 #   Versión: 2.0 (Corregida)
+#   Verifica toda la instalación del sistema FiberOps
 # ================================================
 
 # --- Funciones para mostrar mensajes ---

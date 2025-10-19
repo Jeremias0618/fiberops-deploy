@@ -56,6 +56,10 @@ Script automatizado que instala y configura todo el entorno necesario para Fiber
 
 Script de verificación completo que valida toda la instalación del sistema FiberOps, incluyendo servicios, extensiones PHP, configuraciones y dependencias.
 
+### Archivo: `fiberops_system_monitor.sh`
+
+Script de monitoreo en tiempo real del sistema que verifica el rendimiento, uso de recursos, estado de servicios y características del hardware del servidor.
+
 #### Características del Script de Instalación
 - ✅ Instalación automática de todas las dependencias
 - ✅ Configuración optimizada de PHP y Apache
@@ -76,6 +80,20 @@ Script de verificación completo que valida toda la instalación del sistema Fib
 - ✅ Comprobación de conectividad y puertos
 - ✅ Configuración automática de crontab
 - ✅ Resumen estadístico detallado
+
+#### Características del Script de Monitoreo
+- ✅ Información detallada del hardware del sistema
+- ✅ Monitoreo de CPU con barras de progreso por core
+- ✅ Análisis de memoria RAM y swap en tiempo real
+- ✅ Estadísticas de almacenamiento y uso de disco
+- ✅ Monitoreo de interfaces de red y conectividad
+- ✅ Estado de servicios FiberOps (Apache, PostgreSQL, etc.)
+- ✅ Análisis de procesos con mayor consumo de recursos
+- ✅ Verificación de puertos y conexiones activas
+- ✅ Alertas automáticas por umbrales de uso
+- ✅ Monitoreo continuo con actualización automática
+- ✅ Logging automático de métricas del sistema
+- ✅ Reportes de rendimiento y salud del sistema
 
 #### Funcionalidades Principales
 
@@ -123,14 +141,20 @@ wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberop
 # Descargar el script de verificación
 wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/verify_fiberops_installation.sh
 
+# Descargar el script de monitoreo
+wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberops_system_monitor.sh
+
 # Dar permisos de ejecución
-chmod +x fiberops_deploy.sh verify_fiberops_installation.sh
+chmod +x fiberops_deploy.sh verify_fiberops_installation.sh fiberops_system_monitor.sh
 
 # Ejecutar instalación como root
 sudo ./fiberops_deploy.sh
 
 # Después de la instalación, verificar el sistema
 sudo ./verify_fiberops_installation.sh
+
+# Monitorear el sistema en tiempo real
+sudo ./fiberops_system_monitor.sh
 ```
 
 ### 3. Proceso de Instalación
@@ -251,6 +275,62 @@ El script proporciona un **resumen estadístico** con:
 - Advertencias encontradas
 - Errores detectados
 - Estado general del sistema
+
+## 📊 Monitoreo del Sistema
+
+### Script de Monitoreo en Tiempo Real
+```bash
+# Monitoreo completo una vez
+sudo ./fiberops_system_monitor.sh
+
+# Monitoreo continuo (cada 5 segundos)
+sudo ./fiberops_system_monitor.sh -c 5
+
+# Mostrar ayuda
+sudo ./fiberops_system_monitor.sh -h
+```
+
+### Características del Monitoreo
+El script `fiberops_system_monitor.sh` proporciona:
+
+#### 🖥️ **Información del Sistema**
+- Hostname, OS, Kernel, Uptime
+- Load Average y fecha actual
+- Información detallada del hardware
+
+#### 🔧 **Monitoreo de Hardware**
+- **Procesador**: Modelo, arquitectura, cores, frecuencia
+- **Memoria RAM**: Total, usada, libre, disponible, porcentaje de uso
+- **Almacenamiento**: Tamaño, uso, disponible por dispositivo
+
+#### 📊 **Análisis de Rendimiento**
+- **CPU**: Uso actual con barras de progreso por core
+- **Memoria**: Detalles de RAM y swap
+- **Procesos**: Top 10 procesos por CPU y memoria
+- **Temperatura**: Monitoreo de temperatura del CPU
+
+#### 🌐 **Red y Conectividad**
+- Interfaces de red activas
+- Estadísticas de tráfico (RX/TX)
+- Conexiones activas (establecidas, escuchando)
+- Top 5 IPs con más conexiones
+
+#### 🔧 **Servicios FiberOps**
+- Estado de Apache2, PostgreSQL, Cron, SSH
+- Verificación de puertos (80, 443, 5432, 22)
+- Uso de memoria por servicio
+
+#### ⚠️ **Alertas Automáticas**
+- **CPU**: Alerta si uso > 80%
+- **Memoria**: Alerta si uso > 85%
+- **Disco**: Alerta si uso > 90%
+- **Temperatura**: Alerta si > 80°C
+
+#### 📈 **Reportes y Logging**
+- Resumen de rendimiento del sistema
+- Logging automático en `/var/log/fiberops_monitor.log`
+- Estado general con contador de alertas
+- Métricas históricas para análisis
 
 ## 📧 Soporte
 
