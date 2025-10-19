@@ -231,7 +231,9 @@ msg "✅ INSTALACIÓN COMPLETADA CON ÉXITO
 3. Configurar archivos de configuración (.env, config.php)
 4. Verificar permisos: chown -R www-data:www-data /var/www/html/
 
-📧 Soporte: yeremitantaraico@gmail.com"
+📧 Soporte: yeremitantaraico@gmail.com
+🔗 Documentación: https://cybercodelabs.com.pe
+👨‍💻 GitHub: https://github.com/Jeremias0618"
 
 # --- Configurar permisos finales ---
 msg "Configurando permisos finales del directorio..."

@@ -458,6 +458,8 @@ grep CRON /var/log/syslog | tail -10
 
 - **Autor**: Yeremi Tantaraico
 - **Email**: yeremitantaraico@gmail.com
+- **GitHub**: [@Jeremias0618](https://github.com/Jeremias0618)
+- **Documentación**: [cybercodelabs.com.pe](https://cybercodelabs.com.pe)
 - **Versión del Script**: 2.0 (Corregida)
 - **Sistema Objetivo**: Ubuntu Server 22.04
 

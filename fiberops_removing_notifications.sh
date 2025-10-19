@@ -198,4 +198,5 @@ fi
 # Mostrar estado final
 echo -e "\n🎉 \033[1;32mCONFIGURACIÓN COMPLETADA EXITOSAMENTE\033[0m"
 echo -e "\n📧 \033[1;36mSOPORTE:\033[0m yeremitantaraico@gmail.com"
-echo -e "🔗 \033[1;36mDOCUMENTACIÓN:\033[0m https://cybercodelabs.com"
+echo -e "🔗 \033[1;36mDOCUMENTACIÓN:\033[0m https://cybercodelabs.com.pe"
+echo -e "👨‍💻 \033[1;36mGITHUB:\033[0m https://github.com/Jeremias0618"
