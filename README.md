@@ -60,6 +60,10 @@ Script de verificación completo que valida toda la instalación del sistema Fib
 
 Script de monitoreo en tiempo real del sistema que verifica el rendimiento, uso de recursos, estado de servicios y características del hardware del servidor.
 
+### Archivo: `fiberops_removing_notifications.sh`
+
+Script de configuración automática de crontab para el sistema SMS de FiberOps, que programa tareas automáticas para el procesamiento de notificaciones, limpieza de logs y mantenimiento del sistema.
+
 #### Características del Script de Instalación
 - ✅ Instalación automática de todas las dependencias
 - ✅ Configuración optimizada de PHP y Apache
@@ -94,6 +98,20 @@ Script de monitoreo en tiempo real del sistema que verifica el rendimiento, uso 
 - ✅ Monitoreo continuo con actualización automática
 - ✅ Logging automático de métricas del sistema
 - ✅ Reportes de rendimiento y salud del sistema
+
+#### Características del Script de Crontab SMS
+- ✅ Configuración automática de tareas programadas
+- ✅ Backup automático del crontab existente
+- ✅ Verificación de directorios SMS y creación si no existen
+- ✅ Programación de limpieza automática de notificaciones
+- ✅ Procesamiento automático de cola SMS
+- ✅ Reintento automático de SMS fallidos
+- ✅ Generación automática de estadísticas
+- ✅ Limpieza automática de logs antiguos
+- ✅ Verificación de salud del sistema SMS
+- ✅ Respaldo automático de configuraciones
+- ✅ Creación automática de archivos de log
+- ✅ Verificación y configuración del servicio cron
 
 #### Funcionalidades Principales
 
@@ -144,8 +162,11 @@ wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/verify_
 # Descargar el script de monitoreo
 wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberops_system_monitor.sh
 
+# Descargar el script de configuración crontab SMS
+wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberops_removing_notifications.sh
+
 # Dar permisos de ejecución
-chmod +x fiberops_deploy.sh verify_fiberops_installation.sh fiberops_system_monitor.sh
+chmod +x fiberops_deploy.sh verify_fiberops_installation.sh fiberops_system_monitor.sh fiberops_removing_notifications.sh
 
 # Ejecutar instalación como root
 sudo ./fiberops_deploy.sh
@@ -155,6 +176,9 @@ sudo ./verify_fiberops_installation.sh
 
 # Monitorear el sistema en tiempo real
 sudo ./fiberops_system_monitor.sh
+
+# Configurar tareas automáticas para SMS
+sudo ./fiberops_removing_notifications.sh
 ```
 
 ### 3. Proceso de Instalación
@@ -331,6 +355,104 @@ El script `fiberops_system_monitor.sh` proporciona:
 - Logging automático en `/var/log/fiberops_monitor.log`
 - Estado general con contador de alertas
 - Métricas históricas para análisis
+
+## ⏰ Configuración de Tareas Automáticas (Crontab SMS)
+
+### Script de Configuración Automática
+```bash
+# Configurar tareas automáticas para sistema SMS
+sudo ./fiberops_removing_notifications.sh
+```
+
+### ¿Qué hace el script?
+El script `fiberops_removing_notifications.sh` configura automáticamente las tareas programadas (crontab) necesarias para el funcionamiento del sistema SMS de FiberOps.
+
+### Funcionalidades del Script
+
+#### 🕒 **Tareas Programadas Configuradas**
+1. **Limpieza de Notificaciones** - Diaria a las 23:59
+   - Ejecuta: `clear_notifications.php`
+   - Log: `cleanup.log`
+
+2. **Procesamiento de Cola SMS** - Cada 5 minutos
+   - Ejecuta: `process_queue.php`
+   - Log: `queue.log`
+
+3. **Reintento de SMS Fallidos** - Cada 30 minutos
+   - Ejecuta: `retry_failed.php`
+   - Log: `retry.log`
+
+4. **Generación de Estadísticas** - Diaria a las 06:00
+   - Ejecuta: `stats_generator.php`
+   - Log: `stats.log`
+
+5. **Limpieza de Logs Antiguos** - Domingos a las 02:00
+   - Ejecuta: `cleanup_old_logs.php`
+   - Log: `maintenance.log`
+
+6. **Verificación de Salud SMS** - Cada hora
+   - Ejecuta: `health_check.php`
+   - Log: `health.log`
+
+7. **Respaldo de Configuraciones** - Diario a las 03:00
+   - Ejecuta: `backup_config.php`
+   - Log: `backup.log`
+
+#### 🔧 **Características del Script**
+- **Backup Automático**: Crea respaldo del crontab existente
+- **Verificación de Directorios**: Crea directorios SMS si no existen
+- **Creación de Logs**: Genera archivos de log automáticamente
+- **Verificación de Servicios**: Asegura que el servicio cron esté activo
+- **Validación de PHP**: Verifica que PHP esté disponible
+- **Mensajes Informativos**: Proporciona feedback detallado del proceso
+
+#### 📁 **Estructura de Directorios Creados**
+```
+/var/www/html/sms/
+├── scripts/          # Scripts PHP para tareas automáticas
+├── logs/            # Archivos de log de las tareas
+│   ├── cleanup.log
+│   ├── queue.log
+│   ├── retry.log
+│   ├── stats.log
+│   ├── maintenance.log
+│   ├── health.log
+│   └── backup.log
+└── clear_notifications.php  # Script principal de limpieza
+```
+
+#### 🎯 **Cómo Funciona**
+1. **Verificación**: Comprueba permisos root y dependencias
+2. **Backup**: Crea respaldo del crontab actual
+3. **Configuración**: Agrega tareas SMS al crontab
+4. **Validación**: Verifica que las tareas se agregaron correctamente
+5. **Preparación**: Crea directorios y archivos de log necesarios
+6. **Verificación Final**: Confirma que el servicio cron esté activo
+
+#### 📋 **Comandos Útiles Después de la Configuración**
+```bash
+# Ver tareas programadas configuradas
+crontab -l
+
+# Editar tareas programadas manualmente
+crontab -e
+
+# Verificar estado del servicio cron
+systemctl status cron
+
+# Ver logs de las tareas automáticas
+tail -f /var/www/html/sms/logs/cleanup.log
+tail -f /var/www/html/sms/logs/queue.log
+
+# Verificar ejecución de tareas
+grep CRON /var/log/syslog | tail -10
+```
+
+#### ⚠️ **Requisitos**
+- Ejecutar como root o con permisos sudo
+- PHP instalado y disponible en `/usr/bin/php`
+- Servicio cron instalado y activo
+- Acceso de escritura a `/var/www/html/sms/`
 
 ## 📧 Soporte
 
