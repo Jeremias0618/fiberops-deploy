@@ -46,19 +46,36 @@ Este repositorio contiene los scripts de shell y la documentación necesaria par
 - **Usuario**: Ejecutar como root o con permisos sudo
 - **Acceso**: SSH habilitado
 
-## 🚀 Script de Instalación
+## 🚀 Scripts de Despliegue
 
 ### Archivo: `fiberops_deploy.sh`
 
 Script automatizado que instala y configura todo el entorno necesario para FiberOps.
 
-#### Características del Script
+### Archivo: `verify_fiberops_installation.sh`
+
+Script de verificación completo que valida toda la instalación del sistema FiberOps, incluyendo servicios, extensiones PHP, configuraciones y dependencias.
+
+#### Características del Script de Instalación
 - ✅ Instalación automática de todas las dependencias
 - ✅ Configuración optimizada de PHP y Apache
 - ✅ Configuración de zona horaria (Perú)
 - ✅ Verificación automática de instalaciones
 - ✅ Configuración de permisos y seguridad
 - ✅ Mensajes informativos durante el proceso
+
+#### Características del Script de Verificación
+- ✅ Verificación completa de servicios del sistema
+- ✅ Validación de versiones de software instalado
+- ✅ Comprobación de extensiones PHP requeridas
+- ✅ Verificación de configuraciones PHP
+- ✅ Validación de módulos Apache habilitados
+- ✅ Comprobación de directorios y permisos
+- ✅ Verificación de herramientas SNMP
+- ✅ Validación de dependencias Composer
+- ✅ Comprobación de conectividad y puertos
+- ✅ Configuración automática de crontab
+- ✅ Resumen estadístico detallado
 
 #### Funcionalidades Principales
 
@@ -100,14 +117,20 @@ sudo apt update && sudo apt upgrade -y
 
 ### 2. Descarga y Ejecución
 ```bash
-# Descargar el script
+# Descargar el script de instalación
 wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberops_deploy.sh
 
-# Dar permisos de ejecución
-chmod +x fiberops_deploy.sh
+# Descargar el script de verificación
+wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/verify_fiberops_installation.sh
 
-# Ejecutar como root
+# Dar permisos de ejecución
+chmod +x fiberops_deploy.sh verify_fiberops_installation.sh
+
+# Ejecutar instalación como root
 sudo ./fiberops_deploy.sh
+
+# Después de la instalación, verificar el sistema
+sudo ./verify_fiberops_installation.sh
 ```
 
 ### 3. Proceso de Instalación
@@ -183,7 +206,27 @@ El script ejecutará automáticamente:
 
 ## 🔍 Verificación del Sistema
 
-### Comandos de Verificación
+### Script de Verificación Automática
+```bash
+# Ejecutar verificación completa del sistema
+sudo ./verify_fiberops_installation.sh
+```
+
+El script de verificación realizará **11 categorías de verificación**:
+
+1. **Servicios del Sistema** - Apache2 y PostgreSQL
+2. **Versiones de Software** - PHP, Apache, PostgreSQL, Composer
+3. **Extensiones PHP Requeridas** - SSH2, SNMP, PostgreSQL, GD, etc.
+4. **Configuración PHP** - Zona horaria, memory limit, execution time
+5. **Módulos Apache** - Rewrite, Headers, PHP 8.1
+6. **Directorios y Permisos** - /var/www/html/, logs, permisos
+7. **Herramientas SNMP** - SNMP tools, Python3, psycopg2
+8. **Composer y Dependencias** - Autoloader, dependencias del proyecto
+9. **Conectividad y Puertos** - Puerto 80 (HTTP), 5432 (PostgreSQL)
+10. **Configuración del Sistema** - Zona horaria, IPv6
+11. **Configuración de Crontab** - Configuración automática de tareas programadas
+
+### Comandos de Verificación Manual
 ```bash
 # Estado de servicios
 systemctl status apache2
@@ -200,6 +243,14 @@ php -m | grep -E "(ssh2|snmp|pgsql|gd|mbstring)"
 # Verificar permisos
 ls -la /var/www/html/
 ```
+
+### Resultados de la Verificación
+El script proporciona un **resumen estadístico** con:
+- Total de verificaciones realizadas
+- Número de verificaciones exitosas
+- Advertencias encontradas
+- Errores detectados
+- Estado general del sistema
 
 ## 📧 Soporte
 
