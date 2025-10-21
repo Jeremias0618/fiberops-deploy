@@ -64,6 +64,10 @@ Script de monitoreo en tiempo real del sistema que verifica el rendimiento, uso 
 
 Script de configuración automática de crontab para el sistema SMS de FiberOps, que programa tareas automáticas para el procesamiento de notificaciones, limpieza de logs y mantenimiento del sistema.
 
+### Archivo: `fiberops_setup_zabbix_cron.sh`
+
+Script de configuración automática de crontab para el sistema Zabbix de FiberOps, que programa tareas automáticas para la recopilación de estadísticas, optimización de archivos y mantenimiento del sistema de monitoreo.
+
 #### Características del Script de Instalación
 - ✅ Instalación automática de todas las dependencias
 - ✅ Configuración optimizada de PHP y Apache
@@ -112,6 +116,18 @@ Script de configuración automática de crontab para el sistema SMS de FiberOps,
 - ✅ Respaldo automático de configuraciones
 - ✅ Creación automática de archivos de log
 - ✅ Verificación y configuración del servicio cron
+
+#### Características del Script de Crontab Zabbix
+- ✅ Configuración automática de tareas programadas para Zabbix
+- ✅ Backup automático del crontab existente
+- ✅ Verificación de directorios Zabbix y creación si no existen
+- ✅ Recopilación automática de estadísticas cada 3 segundos
+- ✅ Optimización automática de archivos estadísticos
+- ✅ Limpieza automática de archivos obsoletos
+- ✅ Verificación de salud del sistema Zabbix
+- ✅ Creación automática de archivos de log
+- ✅ Verificación y configuración del servicio cron
+- ✅ Gestión inteligente de archivos JSON y logs
 
 #### Funcionalidades Principales
 
@@ -165,8 +181,11 @@ wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberop
 # Descargar el script de configuración crontab SMS
 wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberops_removing_notifications.sh
 
+# Descargar el script de configuración crontab Zabbix
+wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberops_setup_zabbix_cron.sh
+
 # Dar permisos de ejecución
-chmod +x fiberops_deploy.sh verify_fiberops_installation.sh fiberops_system_monitor.sh fiberops_removing_notifications.sh
+chmod +x fiberops_deploy.sh verify_fiberops_installation.sh fiberops_system_monitor.sh fiberops_removing_notifications.sh fiberops_setup_zabbix_cron.sh
 
 # Ejecutar instalación como root
 sudo ./fiberops_deploy.sh
@@ -179,6 +198,9 @@ sudo ./fiberops_system_monitor.sh
 
 # Configurar tareas automáticas para SMS
 sudo ./fiberops_removing_notifications.sh
+
+# Configurar tareas automáticas para Zabbix
+sudo ./fiberops_setup_zabbix_cron.sh
 ```
 
 ### 3. Proceso de Instalación
@@ -453,6 +475,120 @@ grep CRON /var/log/syslog | tail -10
 - PHP instalado y disponible en `/usr/bin/php`
 - Servicio cron instalado y activo
 - Acceso de escritura a `/var/www/html/sms/`
+
+## 📊 Configuración de Tareas Automáticas (Crontab Zabbix)
+
+### Script de Configuración Automática
+```bash
+# Configurar tareas automáticas para sistema Zabbix
+sudo ./fiberops_setup_zabbix_cron.sh
+```
+
+### ¿Qué hace el script?
+El script `fiberops_setup_zabbix_cron.sh` configura automáticamente las tareas programadas (crontab) necesarias para el funcionamiento del sistema de monitoreo Zabbix de FiberOps.
+
+### Funcionalidades del Script
+
+#### 🕒 **Tareas Programadas Configuradas**
+1. **Recopilación de Estadísticas** - Cada minuto (ejecuta cada 3 segundos)
+   - Ejecuta: `get_events_data.php`
+   - Log: `zabbix_collection.log`
+   - Frecuencia: Cada 3 segundos durante 1 minuto
+
+2. **Optimización de Archivos** - Diaria a las 02:00
+   - Ejecuta: `fix_current_stats.php`
+   - Log: `optimization.log`
+   - Función: Optimiza archivos JSON grandes
+
+3. **Limpieza de Archivos Obsoletos** - Domingos a las 03:00
+   - Ejecuta: `cleanup_large_files.php`
+   - Log: `cleanup.log`
+   - Función: Limpia archivos antiguos y grandes
+
+4. **Verificación de Salud del Sistema** - Cada 6 horas
+   - Ejecuta: `health_check.php`
+   - Log: `health.log`
+   - Función: Verifica el estado del sistema Zabbix
+
+#### 🔧 **Características del Script**
+- **Backup Automático**: Crea respaldo del crontab existente
+- **Verificación de Directorios**: Crea directorios Zabbix si no existen
+- **Creación de Logs**: Genera archivos de log automáticamente
+- **Verificación de Servicios**: Asegura que el servicio cron esté activo
+- **Validación de PHP**: Verifica que PHP esté disponible
+- **Gestión Inteligente**: Maneja archivos JSON y logs de manera eficiente
+
+#### 📁 **Estructura de Directorios Creados**
+```
+/var/www/html/zabbix/
+├── statistics/              # Directorio de estadísticas
+│   ├── zabbix_collection.log    # Log de recopilación
+│   ├── optimization.log         # Log de optimización
+│   ├── cleanup.log              # Log de limpieza
+│   ├── health.log               # Log de salud del sistema
+│   ├── stats_YYYY-MM-DD.json    # Datos detallados del día
+│   ├── hourly_YYYY-MM-DD.json   # Resumen por horas
+│   └── events_log_YYYY-MM-DD.txt # Log de texto (backup)
+├── get_events_data.php      # Script principal de recopilación
+├── fix_current_stats.php    # Script de optimización
+├── cleanup_large_files.php  # Script de limpieza
+└── health_check.php         # Script de verificación de salud
+```
+
+#### 🎯 **Cómo Funciona**
+1. **Verificación**: Comprueba permisos root y dependencias
+2. **Backup**: Crea respaldo del crontab actual
+3. **Configuración**: Agrega tareas Zabbix al crontab
+4. **Validación**: Verifica que las tareas se agregaron correctamente
+5. **Preparación**: Crea directorios y archivos de log necesarios
+6. **Verificación Final**: Confirma que el servicio cron esté activo
+
+#### 📊 **Funcionalidades del Sistema Zabbix**
+- **Recopilación Automática**: Cada 3 segundos durante 1 minuto
+- **Almacenamiento Múltiple**: JSON detallado + TXT backup
+- **Optimización Inteligente**: Reduce archivos grandes automáticamente
+- **Visualización en Tiempo Real**: Gráficas interactivas
+- **Estadísticas por Períodos**: Horas, días, semanas, meses
+
+#### 📋 **Comandos Útiles Después de la Configuración**
+```bash
+# Ver tareas programadas configuradas
+crontab -l
+
+# Ver logs en tiempo real
+tail -f /var/www/html/zabbix/statistics/events_log_$(date +%Y-%m-%d).txt
+
+# Verificar archivos JSON generados
+ls -la /var/www/html/zabbix/statistics/
+
+# Ver estadísticas en vivo
+curl http://localhost/zabbix/statistics.php
+
+# Ejecutar optimización manual
+cd /var/www/html/zabbix && php fix_current_stats.php
+
+# Ejecutar limpieza manual
+cd /var/www/html/zabbix && php cleanup_large_files.php
+```
+
+#### 📈 **Archivos Generados**
+- **`stats_YYYY-MM-DD.json`**: Datos detallados (máximo 1440 entradas/día)
+- **`hourly_YYYY-MM-DD.json`**: Resumen por horas con hashes únicos
+- **`events_log_YYYY-MM-DD.txt`**: Log de texto para backup
+- **Logs del sistema**: Collection, optimization, cleanup, health
+
+#### ⚠️ **Requisitos**
+- Ejecutar como root o con permisos sudo
+- PHP instalado y disponible en `/usr/bin/php`
+- Servicio cron instalado y activo
+- Acceso de escritura a `/var/www/html/zabbix/`
+- Archivo `get_events_data.php` en el directorio Zabbix
+
+#### 🔧 **Mantenimiento**
+- **Optimización**: Se ejecuta automáticamente diariamente
+- **Limpieza**: Se ejecuta automáticamente semanalmente
+- **Monitoreo**: Verificación de salud cada 6 horas
+- **Logs**: Rotación automática y gestión de espacio
 
 ## 📧 Soporte
 
