@@ -68,66 +68,9 @@ Script de configuración automática de crontab para el sistema SMS de FiberOps,
 
 Script de configuración automática de crontab para el sistema Zabbix de FiberOps, que programa tareas automáticas para la recopilación de estadísticas, optimización de archivos y mantenimiento del sistema de monitoreo.
 
-#### Características del Script de Instalación
-- ✅ Instalación automática de todas las dependencias
-- ✅ Configuración optimizada de PHP y Apache
-- ✅ Configuración de zona horaria (Perú)
-- ✅ Verificación automática de instalaciones
-- ✅ Configuración de permisos y seguridad
-- ✅ Mensajes informativos durante el proceso
+### Archivo: `fiberops_htaccess.sh`
 
-#### Características del Script de Verificación
-- ✅ Verificación completa de servicios del sistema
-- ✅ Validación de versiones de software instalado
-- ✅ Comprobación de extensiones PHP requeridas
-- ✅ Verificación de configuraciones PHP
-- ✅ Validación de módulos Apache habilitados
-- ✅ Comprobación de directorios y permisos
-- ✅ Verificación de herramientas SNMP
-- ✅ Validación de dependencias Composer
-- ✅ Comprobación de conectividad y puertos
-- ✅ Configuración automática de crontab
-- ✅ Resumen estadístico detallado
-
-#### Características del Script de Monitoreo
-- ✅ Información detallada del hardware del sistema
-- ✅ Monitoreo de CPU con barras de progreso por core
-- ✅ Análisis de memoria RAM y swap en tiempo real
-- ✅ Estadísticas de almacenamiento y uso de disco
-- ✅ Monitoreo de interfaces de red y conectividad
-- ✅ Estado de servicios FiberOps (Apache, PostgreSQL, etc.)
-- ✅ Análisis de procesos con mayor consumo de recursos
-- ✅ Verificación de puertos y conexiones activas
-- ✅ Alertas automáticas por umbrales de uso
-- ✅ Monitoreo continuo con actualización automática
-- ✅ Logging automático de métricas del sistema
-- ✅ Reportes de rendimiento y salud del sistema
-
-#### Características del Script de Crontab SMS
-- ✅ Configuración automática de tareas programadas
-- ✅ Backup automático del crontab existente
-- ✅ Verificación de directorios SMS y creación si no existen
-- ✅ Programación de limpieza automática de notificaciones
-- ✅ Procesamiento automático de cola SMS
-- ✅ Reintento automático de SMS fallidos
-- ✅ Generación automática de estadísticas
-- ✅ Limpieza automática de logs antiguos
-- ✅ Verificación de salud del sistema SMS
-- ✅ Respaldo automático de configuraciones
-- ✅ Creación automática de archivos de log
-- ✅ Verificación y configuración del servicio cron
-
-#### Características del Script de Crontab Zabbix
-- ✅ Configuración automática de tareas programadas para Zabbix
-- ✅ Backup automático del crontab existente
-- ✅ Verificación de directorios Zabbix y creación si no existen
-- ✅ Recopilación automática de estadísticas cada 3 segundos
-- ✅ Optimización automática de archivos estadísticos
-- ✅ Limpieza automática de archivos obsoletos
-- ✅ Verificación de salud del sistema Zabbix
-- ✅ Creación automática de archivos de log
-- ✅ Verificación y configuración del servicio cron
-- ✅ Gestión inteligente de archivos JSON y logs
+Script de configuración automática de Apache para habilitar el uso del archivo `.htaccess` existente en FiberOps, que configura los módulos necesarios y las directivas de Apache para procesar las reglas de seguridad.
 
 #### Funcionalidades Principales
 
@@ -184,8 +127,11 @@ wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberop
 # Descargar el script de configuración crontab Zabbix
 wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberops_setup_zabbix_cron.sh
 
+# Descargar el script de configuración Apache .htaccess
+wget https://raw.githubusercontent.com/Jeremias0618/fiberops-deploy/main/fiberops_htaccess.sh
+
 # Dar permisos de ejecución
-chmod +x fiberops_deploy.sh verify_fiberops_installation.sh fiberops_system_monitor.sh fiberops_removing_notifications.sh fiberops_setup_zabbix_cron.sh
+chmod +x fiberops_deploy.sh verify_fiberops_installation.sh fiberops_system_monitor.sh fiberops_removing_notifications.sh fiberops_setup_zabbix_cron.sh fiberops_htaccess.sh
 
 # Ejecutar instalación como root
 sudo ./fiberops_deploy.sh
@@ -201,6 +147,9 @@ sudo ./fiberops_removing_notifications.sh
 
 # Configurar tareas automáticas para Zabbix
 sudo ./fiberops_setup_zabbix_cron.sh
+
+# Configurar Apache para usar .htaccess
+sudo ./fiberops_htaccess.sh
 ```
 
 ### 3. Proceso de Instalación
@@ -589,6 +538,115 @@ cd /var/www/html/zabbix && php cleanup_large_files.php
 - **Limpieza**: Se ejecuta automáticamente semanalmente
 - **Monitoreo**: Verificación de salud cada 6 horas
 - **Logs**: Rotación automática y gestión de espacio
+
+## 🔒 Configuración de Apache para .htaccess
+
+### Script de Configuración Automática
+```bash
+# Configurar Apache para usar archivo .htaccess existente
+sudo ./fiberops_htaccess.sh
+```
+
+### ¿Qué hace el script?
+El script `fiberops_htaccess.sh` configura automáticamente Apache para que pueda procesar y usar el archivo `.htaccess` existente en FiberOps, habilitando todos los módulos necesarios y configurando las directivas apropiadas.
+
+### Funcionalidades del Script
+
+#### 🔧 **Configuraciones Aplicadas**
+1. **Habilitación de Módulos Apache**
+   - `mod_rewrite` - Para reglas de reescritura de URL
+   - `mod_headers` - Para cabeceras de seguridad HTTP
+   - `mod_deflate` - Para compresión de contenido
+   - `mod_expires` - Para gestión de caché
+
+2. **Configuración de Directorio**
+   - Configura `/var/www/html/` para permitir `.htaccess`
+   - Establece `AllowOverride All` para procesar reglas
+   - Configura permisos y directivas de seguridad
+
+3. **Verificación del Sistema**
+   - Comprueba existencia del archivo `.htaccess`
+   - Valida instalación de Apache
+   - Verifica permisos de directorio
+
+#### 🛡️ **Características del Script**
+- **Configuración Automática**: Habilita Apache para usar .htaccess
+- **Habilitación de Módulos**: Activa módulos necesarios automáticamente
+- **Verificación de Existencia**: Comprueba si existe el archivo .htaccess
+- **Backup de Configuraciones**: Respalda configuraciones Apache existentes
+- **Reinicio Automático**: Reinicia Apache para aplicar cambios
+- **Verificación de Módulos**: Confirma que los módulos estén habilitados
+- **Configuración de Permisos**: Establece permisos correctos
+- **Mensajes Informativos**: Proporciona feedback detallado del proceso
+
+#### 📁 **Configuración de Apache Aplicada**
+```apache
+<Directory /var/www/html/>
+    Options -Indexes
+    AllowOverride All
+    Require all granted
+</Directory>
+```
+
+#### 🎯 **Cómo Funciona**
+1. **Verificación**: Comprueba permisos root y existencia de Apache
+2. **Detección**: Verifica si existe el archivo .htaccess en /var/www/html/
+3. **Habilitación**: Activa módulos Apache necesarios
+4. **Configuración**: Modifica configuración de Apache para permitir .htaccess
+5. **Reinicio**: Reinicia Apache para aplicar cambios
+6. **Verificación Final**: Confirma que los módulos estén habilitados
+
+#### 📊 **Módulos Habilitados**
+- **mod_rewrite**: Para procesar reglas de reescritura del .htaccess
+- **mod_headers**: Para aplicar cabeceras de seguridad
+- **mod_deflate**: Para compresión de contenido (opcional)
+- **mod_expires**: Para gestión de caché (opcional)
+
+#### 📋 **Comandos de Verificación Después de la Configuración**
+```bash
+# Verificar módulos habilitados
+apache2ctl -M | grep -E "(rewrite|headers|deflate|expires)"
+
+# Verificar configuración de directorio
+grep -A 5 "<Directory /var/www/html/>" /etc/apache2/sites-available/000-default.conf
+
+# Verificar estado de Apache
+systemctl status apache2
+
+# Ver logs de Apache
+tail -f /var/log/apache2/error.log
+
+# Probar que .htaccess funciona
+curl -I http://localhost/
+```
+
+#### ⚠️ **Requisitos**
+- Ejecutar como root o con permisos sudo
+- Apache2 instalado y funcionando
+- Archivo .htaccess existente en /var/www/html/ (opcional)
+- Acceso de escritura a configuraciones de Apache
+
+#### 🔧 **Mantenimiento**
+- **Verificación**: Los módulos permanecen habilitados después del reinicio
+- **Configuración**: La configuración de directorio se mantiene
+- **Logs**: Revisar logs de Apache si hay problemas con .htaccess
+- **Backup**: Configuraciones originales respaldadas automáticamente
+
+#### 🚨 **Solución de Problemas**
+```bash
+# Si el .htaccess no funciona:
+# 1. Verificar módulos
+apache2ctl -M | grep rewrite
+
+# 2. Verificar configuración
+grep "AllowOverride" /etc/apache2/sites-available/000-default.conf
+
+# 3. Verificar permisos del archivo
+ls -la /var/www/html/.htaccess
+
+# 4. Revisar logs de error
+tail -f /var/log/apache2/error.log
+```
 
 ## 📧 Soporte
 
